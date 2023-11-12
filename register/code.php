@@ -2,11 +2,11 @@
     //Import PHPMailer classes into the global namespace
     //These must be at the top of your script, not inside a function
     use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    //Load Composer's autoloader
-    require '../vendor/autoload.php';
+    require '../PHPMailer-master/src/Exception.php';
+    require '../PHPMailer-master/src/PHPMailer.php';
+    require '../PHPMailer-master/src/SMTP.php';
 
     session_start();
     include('../config/dbConnection.php');
@@ -15,20 +15,20 @@
     function sendemail_verification($username, $email, $verify_token)
     {
         $mail = new PHPMailer(true);
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
-        $mail->isSMTP();                                                //Send using SMTP
-        $mail->Host       = 'smtp.mail.yahoo.com';                      //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                       //Enable SMTP authentication
-        $mail->Username   = 'tempmail123444@yahoo.com';                 //SMTP username
-        $mail->Password   = 'temp123452';                               //SMTP password
+        
+        $mail->isSMTP();                                                    //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                               //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                           //Enable SMTP authentication
+        $mail->Username   = 's44886571@gmail.com';                          //SMTP username
+        $mail->Password   = 'qgqwbssbglsnctmt';                             //SMTP password
 
-        $mail->SMTPSecure = 'tls';                                      //Enable implicit TLS encryption
-        $mail->Port       = 587;                                        //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $mail->SMTPSecure = 'ssl';                                          //Enable implicit SSL encryption
+        $mail->Port       = 465;                                            //TCP port to connect to;
 
-        $mail->setFrom('s44886571@gmail.com', $username);
-        $mail->addAddress($email);                                      //Add a recipient
+        $mail->setFrom('s44886571@gmail.com');
+        $mail->addAddress($email);                                          //Add a recipient
  
-        $mail->isHTML(true);                                            //Set email format to HTML
+        $mail->isHTML(true);                                                //Set email format to HTML
         $mail->Subject = 'Email verification';
 
         $email_template = 
@@ -59,7 +59,6 @@
         $password = $_POST['password'];
         $repeatPassword = $_POST['repeat-password'];
         $verify_token = md5(rand());
-        //sendemail_verification("$username","$email","$verify_token");
 
         //Check if password and repeated-password are the same;
         if($password !== $repeatPassword)
@@ -103,7 +102,6 @@
             if($query_run)
             {
                 sendemail_verification("$username","$email","$verify_token");
-                $_SESSION['status'] = "Registration successfull! Please verify your email address.";
                 header("Location: ../mail-confirmation/mail-confirmation.html"); // send to the new page
             }
             else

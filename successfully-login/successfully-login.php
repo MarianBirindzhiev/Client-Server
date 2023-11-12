@@ -1,3 +1,8 @@
+<?php 
+    include('../config/authentication.php');
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +13,10 @@
 </head>
 <body>
 <div class="container">
+
     <h2>Login Successful!</h2>
-    <p>Welcome to our website, Username. You are now logged in.</p>
-    <p><a href="../login/login.php" class="logout-link">Logout</a></p>
+    <p>Welcome to our website, <?php echo $_SESSION['auth_user']['username']; ?>. You are now logged in.</p>
+    <p><a href="logout.php" class="logout-link">Logout</a></p>
 </div>
 </body>
 </html>

@@ -1,3 +1,5 @@
+<?php session_start() ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +11,18 @@
 </head>
 <body>
     <div class="wrapper">
-        <form action="login.php" method="post">
+        <form action="code.php" method="POST">
+
+            <div class="alert">
+                <?php
+                    if(isset($_SESSION['status']))
+                    {
+                        echo "<h4>".$_SESSION['status']."</h4>";
+                        unset($_SESSION['status']);
+                    }
+                ?>
+            </div>
+
             <h1>Login</h1>
             <div class ="input-div">
                 <input type="text" name="email" id="email" placeholder="Email" required>
@@ -20,7 +33,7 @@
                 <i class='bx bxs-lock-alt'></i>
             </div>
             
-            <button type="sumbit" class="btn">Login</button>
+            <button type="sumbit" name="login-btn" class="btn">Login</button>
 
             <div class="register-link">
                 <a href="../register/register.php">Don't have an account?</a>
