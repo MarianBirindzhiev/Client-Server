@@ -15,9 +15,13 @@
             
            <div class="alert">
                 <?php
+                    // Check if the 'status' key is set in the session
                     if(isset($_SESSION['status']))
                     {
+                        // If set, echo an <h4> HTML element with the value of 'status'
                         echo "<h4>".$_SESSION['status']."</h4>";
+                        
+                        // Unset the 'status' key in the session to clear the status message
                         unset($_SESSION['status']);
                     }
                 ?>
